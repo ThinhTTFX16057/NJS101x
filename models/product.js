@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
-const { STRING, NUMBER } = require('sequelize/types');
 
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema ({
-  title: {type: STRING, required:true},
-  price: {type: NUMBER, required: true},
-  description: {type: STRING, required: true},
-  imageUrl: {type: STRING, required: true}
+  title: {type: String, required:true},
+  price: {type: Number, required: true},
+  description: {type: String, required: true},
+  imageUrl: {type: String, required: true}
 });
 
+module.exports = mongoose.model('Product', productSchema);
 // const mongodb = require('mongodb');
 // const getDb = require('../util/database').getDb;
 
@@ -77,4 +77,4 @@ const productSchema = new Schema ({
 //   }
 // }
 
-module.exports = Product;
+// module.exports = Product;
