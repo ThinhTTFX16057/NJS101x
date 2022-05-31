@@ -30,7 +30,8 @@ userSchema.methods.addToCart = function(product){
   const updatedCart = {items: updatedCartItems};
   this.cart = updatedCart;
   return this.save();
-}
+};
+
 module.exports = mongoose.model('User', userSchema);
 
 
