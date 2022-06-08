@@ -1,53 +1,27 @@
-<div class="backdrop"></div>
-<header class="main-header">
-    <button id="side-menu-toggle">Menu</button>
-    <nav class="main-header__nav">
-        <ul class="main-header__item-list">
-            <li class="main-header__item">
-                <a class="<%= path === '/' ? 'active' : '' %>" href="/">Shop</a>
-            </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
-            </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
-            </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
-            </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add Product
-                </a>
-            </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin Products
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-
-<nav class="mobile-nav">
-        <ul class="mobile-nav__item-list">
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/' ? 'active' : '' %>" href="/">Shop</a>
+</head>
+<body>
+    <div class="backdrop"></div>
+    <header class="main-header">
+        <button id="side-menu-toggle">Menu</button>
+        <nav class="main-header__nav mobile-nav">
+            <ul class="main-header__item-list mobile-nav__item-list">
+                <li class="main-header__item mobile-nav__item">
+                    <a class="<%= path === '/timekeeping' ? 'active' : '' %>" href="/timekeeping">Timekeeping</a>
                 </li>
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
+                <li class="main-header__item mobile-nav__item">
+                    <a class="<%= path === '/staffinfo' ? 'active' : '' %>" href="/">Staff Info</a>
                 </li>
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
-                </li>
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
-                </li>
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add Product
+                <li class="main-header__item mobile-nav__item">
+                    <a class="<%= path === '/workinghours' ? 'active' : '' %>" href="/workinghours">Working Hours
                     </a>
                 </li>
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin Products
+                <li class="main-header__item mobile-nav__item">
+                    <a class="<%= path === '/covid' ? 'active' : '' %>" href="/covid">COVID-19
                     </a>
                 </li>
             </ul>
-</nav>
+        </nav>
+    </header>
+    <% if (display) { %>
+        <h2 id="disappear">Chào mừng bạn đến với trang <%= pageTitle %></h2>
+    <% } %>

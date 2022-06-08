@@ -1,0 +1,60 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/table.css">
+<%- include('../includes/navigation.ejs') %>
+    <main>
+        <div class="grid">
+            <article class="card product-item">
+                <form class="product-form" action="/covid/vaccine" method="POST">
+                    <%- include('../includes/staffInfo_covid.ejs') %>
+                    <div class="form-control">
+                        <label for="dateFirstVaccine">Ngày tiêm mũi 1</label>
+                        <input type="date" name="dateFirstVaccine" id="dateFirstVaccine" 
+                        value="<%= staff.staffVaccine ? staff.staffVaccine.dateVac_1 : null%>">
+                    </div>
+                    <div class="form-control">
+                        <label for="firstVaccine">Tên vaccine mũi 1</label>
+                        <input type="text" name="firstVaccine" id="firstVaccine" value="<%=staff.staffVaccine ? staff.staffVaccine.Vac_1 : null%>">
+                    </div>
+                    <div class="form-control">
+                        <label for="dateSecondVaccine">Ngày tiêm mũi 2</label>
+                        <input type="date" name="dateSecondVaccine" id="dateSecondVaccine" 
+                        value="<%= staff.staffVaccine ? staff.staffVaccine.dateVac_2 : null%>">
+                    </div>
+                    <div class="form-control">
+                        <label for="secondVaccine">Tên vaccine mũi 2</label>
+                        <input type="text" name="secondVaccine" id="secondVaccine" value="<%= staff.staffVaccine ? staff.staffVaccine.Vac_2 : null%>">
+                    </div>
+                    <button class="btn" type="submit">Submit</button>
+                </form>
+            </article>
+            <article class="card product-table">
+                <h2>Dữ liệu Vaccine</h2> 
+                <div class="table-wrapper">
+                    <table class="fl-table">
+                        <thead>
+                            <tr>
+                                <th>Ngày tiêm mũi 1</th>
+                                <th>Tên vaccine mũi 1</th>
+                                <th>Ngày tiêm mũi 2</th>
+                                <th>Tên vaccine mũi 2</th>
+                            </tr>
+                        </thead>
+                            <tbody>
+                            <% if (data) {  %>
+                                <tr>
+                                    <td><%= new Date(staff.staffVaccine.dateVac_1).toLocaleDateString('en-GB') %></td>
+                                    <td><%= staff.staffVaccine.Vac_1 %></td>
+                                    <td><%= new Date(staff.staffVaccine.dateVac_2).toLocaleDateString('en-GB') %></td>
+                                    <td><%= staff.staffVaccine.Vac_2 %></td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+        </div>
+
+    </main>
+<%- include('../includes/end.ejs') %>

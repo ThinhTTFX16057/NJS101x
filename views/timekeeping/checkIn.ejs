@@ -1,0 +1,69 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/table.css">
+<%- include('../includes/navigation.ejs') %>
+    <main>
+        <div class="grid">
+            <article class="card product-item">
+                <form class="product-form" action="/timekeeping/checkin" method="POST">
+                    <%- include('../includes/staffInfo_timekeeping.ejs') %>
+                    <!--Value của các input dưới đây chỉ để hiển thị, không dùng cho req.body của controller-->
+                    <div class="form-control">
+                        <label for="status">Trạng thái</label>
+                        <input type="text" name="status" id="status" value="<%=staff.status ? staff.status : '--'%>" readonly>
+                    </div>
+                    <div class="form-control">
+                        <label for="dateTimekeeping">Ngày làm việc</label>
+                        <input type="text" name="dateTimekeeping" id="dateTimekeeping" value="<%= new Date(Date.now()).toLocaleDateString('en-GB') %>" readonly>
+                    </div>
+                    <!--Value của các input dưới đây dùng cho req.body của controller-->
+                    <div class="form-control">
+                        <input type="hidden" name="dataId" id="dataId" value="<%= staff.timekeeping ? staff.timekeeping[staff.timekeeping.length-1].data[staff.timekeeping[staff.timekeeping.length-1].data.length -1].dataId : null %>">
+                    </div>
+                    <div class="form-control">
+                        <label for="workplace">Nơi làm việc</label>
+                        <select name="workplace" id="workplace">
+                            <option value="Company" selected>Company</option>
+                            <option value="Home">Home</option>
+                            <option value="Customer">Customer</option>
+                        </select>
+                    </div>
+                    <% if (exit) { %>
+                        <div class="card__actions">
+                            <a href="/timekeeping/checkout/<%= staff.companyId %>" class="btn">Go to Checkout</a>
+                        </div>
+                    <% } else { %>
+                        <button class="btn" type="submit">Checkin</button>
+                    <% } %>
+                </form>
+            </article>
+            <article class="card product-table">
+                <h2>Dữ liệu điểm danh</h2> 
+                <div class="table-wrapper">
+                    <table class="fl-table">
+                        <thead>
+                            <tr>
+                                <th>Ngày</th>
+                                <th>Giờ bắt đầu</th>
+                                <th>Nơi làm việc</th>
+                            </tr>
+                        </thead>
+                            <tbody>
+                            <% if (data && staff.timekeeping) { 
+                                for (let tp of staff.timekeeping) { 
+                                    for (let ck of tp.data) { 
+                            %>
+                                <tr>
+                                    <td><%= new Date(tp.date).toLocaleDateString('en-GB') %></td>
+                                    <td><%= ck.timeStart %></td>
+                                    <td><%= ck.workplace %></td>
+                                </tr>
+                            <% }}} %>
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+        </div>
+    </main>
+<%- include('../includes/end.ejs') %>

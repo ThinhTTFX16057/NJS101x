@@ -4,13 +4,17 @@
     margin: auto;
     display: block;
 }
-
+.product-form button {margin-bottom: 1rem;}
 .product-item {
     width: 20rem;
     max-width: 95%;
     margin: 1rem;
 }
-
+.product-table {
+    width: 50rem;
+    max-width: 95%;
+    margin: 1rem;
+}
 .product__title {
     font-size: 1.2rem;
     text-align: center;

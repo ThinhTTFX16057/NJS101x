@@ -1,36 +1,29 @@
-const path = require('path');
-
-const express = require('express');
-const bodyParser = require('body-parser');
 
 const mongoConnect = require('./util/database').mongoConnect;
-const User = require('./models/user');
-
+const express = require('express');
 const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/shop');
-
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
+const path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use((req, res, next) => {
-//   User.findById('5baa2528563f16379fc8a610')
-//     .then(user => {
-//       req.user = new User(user.name, user.email, user.cart, user._id);
-//       next();
-//     })
-//     .catch(err => console.log(err));
-// });
+//routes
+const timekeepingRoutes = require('./routes/timekeeping');
+const staffInfoRoutes = require('./routes/info');
+const workingHoursRoutes = require('./routes/workingHours');
+const covidRoutes = require('./routes/covid');
 
-app.use('/admin', adminRoutes);
-app.use(shopRoutes);
+app.use('/timekeeping', timekeepingRoutes); //Routes chấm công gồm: điểm danh, kết thúc làm, nghỉ phép
+app.use(staffInfoRoutes); // Routes thông tin nhân viên gồm: xem, sửa, xoá thông tin
+app.use('/workinghours',workingHoursRoutes); // Routes thông tin nhân viên gồm: xem giờ làm, lương
+app.use('/covid',covidRoutes); // Routes covid gồm: thân nhiệt, vaccin, dương tính 
 
+//middleware for 404 page
 app.use((req, res) => {
-  res.status(404).render('404', { pageTitle: 'Page Not Found', path: '/404' })
+  res.status(404).render('404', { pageTitle: 'Page Not Found', path: '/404', display: false })
 });
 
 mongoConnect(() => {

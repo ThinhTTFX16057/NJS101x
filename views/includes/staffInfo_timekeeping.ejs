@@ -1,0 +1,26 @@
+<div class="card__image">
+    <img src="<%= staff.imageUrl %>" alt="<%= staff.name %>">
+</div>
+<!--Value của các input dưới đây dùng cho req.body của controller-->
+<div class="form-control">
+    <input type="hidden" name="imageUrl" id="imageUrl" value="<%= staff.imageUrl %>">
+</div>
+<div class="form-control">
+    <input type="hidden" name="staffId" value="<%= staff._id %>">
+</div>
+<div class="form-control">
+    <label for="companyId">Mã nhân viên</label>
+    <input type="text" name="companyId" id="companyId" value="<%= staff.companyId %>" readonly>
+</div>
+<div class="form-control">
+    <label for="name">Họ tên nhân viên</label>
+    <input type="text" name="name" id="name" value="<%= staff.name %>" readonly>
+</div>
+<div class="form-control">
+    <label for="annualLeave">Số ngày phép của năm</label>
+    <input type="number" name="annualLeave" id="annualLeave" value="<%= staff.annualLeave %>" readonly>
+</div>
+<div class="form-control">
+    <label for="salaryScale">Hệ số lương</label>
+    <input type="number" name="salaryScale" id="salaryScale" value="<%= staff.salaryScale %>" readonly>
+</div>

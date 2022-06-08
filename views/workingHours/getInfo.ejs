@@ -1,0 +1,56 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/table.css">
+<%- include('../includes/navigation.ejs') %>
+    <main>
+        <div class="grid">
+            <% if (data) { %>
+                <article class="card product-item">
+                    <form class="product-form" action="/workinghours/info" method="POST">
+                        <%- include('../includes/staffInfo_timekeeping.ejs') %>
+                        <button class="btn" type="submit">Confirm </button>
+                    </form>
+                </article>
+                <article class="card product-table">
+                    <div>
+                        <h2>Dữ liệu chấm công trong ngày%></h2> 
+                        <div class="table-wrapper">
+                            <table class="fl-table">
+                                <thead>
+                                    <tr>
+                                        <th>Ngày làm việc</th>
+                                        <th>Nơi làm việc</th>
+                                        <th>Giờ bắt đầu</th>
+                                        <th>Giờ kết thúc</th>
+                                        <th>Số giờ làm (trong 1 lần chấm công)</th>
+                                    </tr>
+                                </thead>
+                                    <tbody>
+                                    <% for (let dt of staff.details) { %>
+                                    <tr>
+                                        <td><%= new Date(dt.date).toLocaleDateString('en-GB') %></td>
+                                        <td><%= dt.workplace %></td>
+                                        <td><%= dt.timeStart %></td>
+                                        <td><%= dt.timeEnd ? dt.timeEnd : '--' %></td>
+                                        <td><%= dt.timeEnd ? parseFloat(dt.workHours).toFixed(2) : 'chưa kết thúc' %></td>
+                                    </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>                         
+                    </div>
+
+                    
+                </article>
+            <% } else {%>
+                <div class="card__content clearfix">
+                    <h2> Nhân viên chưa thực hiện chấm công. Vui lòng thực hiện chấm công để có dữ liệu giờ làm</h2>
+                </div>
+                <div class="card__actions">
+                    <a href="/timekeeping" class="btn">Bắt đầu Checkin</a>
+                </div>
+            <% } %>    
+        </div>
+    </main>
+<%- include('../includes/end.ejs') %>

@@ -1,0 +1,87 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/table.css">
+<%- include('../includes/navigation.ejs') %>
+    <main>
+        <div class="grid">
+            <article class="card product-item">
+                <form class="product-form" action="/timekeeping/registryleave" method="POST">
+                    <%- include('../includes/staffInfo_timekeeping.ejs') %>
+                    <div class="form-control">
+                        <!-- Chỉ để hiển thị, không dùng cho req.body -->
+                        <label for="remainingDays">Số ngày phép còn lại</label>
+                        <input type="number" name="remainingDays" id="remainingDays" value="<%= staff.staffAnnualLeave ? staff.staffAnnualLeave[staff.staffAnnualLeave.length-1].remainingDays : staff.annualLeave %>" readonly>
+                    </div>
+                    <!--Khoá form đăng kí nếu dữ liệu remainingsDay<=0 -->
+                    <% const remaining =  staff.staffAnnualLeave ? staff.staffAnnualLeave[staff.staffAnnualLeave.length-1].remainingDays : staff.annualLeave;
+                    if (remaining <=0) { %>
+                        <h2 class ="btn danger">Số ngày phép còn lại là 0. Bạn không thể đăng kí!</h2>
+                    <% } else { %>
+                        <!-- Dùng cho req.body -->
+                        <div class="form-control">
+                            <label for="startLeave">Ngày bắt đầu nghỉ</label>
+                            <input type="date" name="startLeave" id="startLeave" >
+                        </div>
+                        <div class="form-control">
+                            <label for="endLeave">Ngày kết thúc nghỉ</label>
+                            <input type="date" name="endLeave" id="endLeave" >
+                        </div>
+                        <div class="form-control">
+                            <label for="hoursOff">Số giờ sẽ nghỉ mỗi ngày</label>
+                            <select name="hoursOff" id="hoursOff">
+                                <option value="8" selected>8 giờ (1 ngày)</option>
+                                <option value="7">7 giờ (0.875 ngày)</option>
+                                <option value="6">6 giờ (0.75 ngày)</option>
+                                <option value="5">5 giờ (0.625 ngày)</option>
+                                <option value="4">4 giờ (0.5 ngày)</option>
+                                <option value="3">3 giờ (0.375 ngày)</option>
+                                <option value="2">2 giờ (0.25 ngày)</option>
+                                <option value="1">1 giờ (0.125 ngày)</option>
+                            </select>
+                        </div>
+                        <!--Hiện cảnh báo nếu đăng kí vượt số giờ còn lại hoặc startLeave<endLeave, không lưu lên db-->
+                        <% if(error) { %>
+                            <h3 class ="btn danger"><%=error%></h3>
+                        <% } %>
+                        <!-- Dùng cho req.body -->
+                        <div class="form-control">
+                            <label for="reason">Lý do</label>
+                            <textarea type="text" name="reason" id="reason" rows="5"></textarea>
+                        </div>
+                        <button class="btn" type="submit">Submit</button>
+                    <% } %>
+                </form>
+            </article>
+            <article class="card product-table">
+                <h2>Dữ liệu đăng kí nghỉ phép</h2> 
+                <div class="table-wrapper">
+                    <table class="fl-table">
+                        <thead>
+                            <tr>
+                                <th>Ngày bắt đầu</th>
+                                <th>Ngày kết thúc</th>
+                                <th>Lý do</th>
+                                <th>Số giờ nghỉ mỗi ngày</th>
+                                <th>Số ngày phép còn lại</th>
+                            </tr>
+                        </thead>
+                            <tbody>
+                            <% if (data && staff.staffAnnualLeave) { 
+                                for (let sal of staff.staffAnnualLeave) { 
+                            %>
+                                <tr>
+                                    <td><%= new Date(sal.dateLeave.start).toLocaleDateString('en-GB') %></td>
+                                    <td><%= new Date(sal.dateLeave.end).toLocaleDateString('en-GB') %></td>
+                                    <td><%= sal.reason %></td>
+                                    <td><%= sal.hoursOff %></td>
+                                    <td><%= sal.remainingDays%></td>
+                                </tr>
+                            <% }} %>
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+        </div>
+    </main>
+<%- include('../includes/end.ejs') %>
