@@ -1,52 +1,21 @@
+staff.imageUrl
+staff.id
+staff.name
+staff.companyId
+staff.annualLeave
+staff.salaryScale
 
-*****Diem danh bat dau/ket thuc lam (MH-1)
--Chọn “Điểm danh”, hiện bảng để chọn thông tin bắt đầu điểm danh bao gồm:
+staff.details.date
+staff.details.workplace
+staff.details.timeStart
+staff.details.timeEnd
+staff.details.workHours
 
-    Hiển thị (không thể chỉnh sửa) tên nhân viên.
-    Hiển thị lựa chọn nơi làm việc (Nhà, Công ty, khách hàng), mặc định là công ty.
-    Sau khi bấm submit, server sẽ trả về kết quả bắt đầu làm việc bao gồm: Tên nhân viên, nơi làm việc, thời gian bắt đầu (giờ lấy từ server).
-    Chuyển trạng thái sang đang làm việc.
-    Cho phép bắt đầu làm nhiều lần trong ngày.
-- Chọn “Kết thúc làm”, hiển thị thông tin:
+staff.total.date
+staff.total.totalWorkHours
+staff.total.totalOffHours
 
-    Số giờ đã làm hôm nay.
-    Danh sách các lượt bắt đầu, kết thúc trong ngày kèm thông tin nơi làm việc.
-    Chuyển sang trạng thái không làm việc.
-    Cho phép kết thúc làm nhiều lần trong ngày.
-- Chọn “Nghỉ phép”,  hiện bảng để chọn thông đăng ký nghỉ phép bao gồm:
+staff.salary.salaryScale
+staff.salary.overTime
+staff.salary.underTime
 
-    Chọn ngày (chọn được cả ngày trong quá khứ, cho phép chọn nhiều ngày).
-    Lý do.
-    Hiển thị thông tin số ngày còn lại (không thể chỉnh sửa).
-    Nếu số ngày annualLeave còn lại là 0 thì thông báo và không cho phép đăng ký.
-    Chọn số giờ sẽ nghỉ (tối đa 8h cho mỗi ngày), số giờ sẽ nghỉ phải nhỏ hơn số ngày annualLeave còn lại (mỗi ngày annualLeave = 8h). Lúc nhập xong hệ thống sẽ hiển thị quy đổi ra là bao nhiêu ngày, ví dụ 4h thì hiện là 0.5 ngày.
-    Đăng ký xong thì trừ vào vào số ngày annualLeave còn lại. Số ngày annualLeave này không bao giờ mất đi nếu không dùng đến, mỗi năm admin sẽ tiến hành add thêm annualLeave bằng một hệ thống khác.
-   
-*****Xem/sua thong tin ca nhan (MH-2)
-    - Cho phép xem thông tin
-
-id (không thể chỉnh sửa) --> THIẾU !!
-
-    
-*****Tra cuu thong tin gio lam, luong (MH-3)
-- Hiển thị danh sách giờ đã làm:
-
-Ngày.
-Nơi làm việc.
-annualLeave đã đăng ký.
-Giờ bắt đầu.
-Giờ kết thúc (nếu chưa kết thúc thì hiển thị: -- hoặc để trống).
-Tổng số giờ đã làm của lần bắt đầu/kết thúc này (nếu chưa kết thúc thì hiển thị: chưa kết thúc).
-Nếu là lần cuối cùng của ngày thì hiện tổng số giờ làm của ngày cho đến lần kết thúc cuối cùng + giờ đã đăng ký annualLeave, hiện số giờ được tính là làm thêm (giờ làm thêm là giờ làm sau 8 tiếng).
-- Hiển thị thông tin chi tiết lương tháng (chọn được tháng muốn xem). Lương = salaryScale * 3000000 + (overTime - số giờ làm thiếu) * 200000. Số giờ làm còn thiếu là khi chưa đủ 8h/ngày kể cả đã cộng annualLeave của ngày đó. Hiển thị chi tiết thông tin trong công thức trên.
-
-- Nâng cao: Wildcard search (cho phép chọn trường thông tin muốn tìm).
-
-*****Thong tin Covid ca nhan (MH-4)
-- Đăng ký thông tin thân nhiệt (kèm ngày, giờ đăng ký).
-
-- Đăng ký thông tin tiêm vaccine (mũi 1 loại gì ngày nào, mũi 2 loại gì ngày nào).
-
-- Đăng ký thông tin dương tính với covid.
-
-    Xac nhan du lieu gio lam da dung (vao cuoi thang)

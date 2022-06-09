@@ -1,7 +1,14 @@
-<div class="card__image">
-    <img src="<%= staff.imageUrl %>" alt="<%= staff.name %>">
-</div>
+
 <!--Value của các input dưới đây dùng cho req.body của controller-->
+<div class='card__image c-avatar'>
+    <img class='c-avatar__image' src='<%= staff.imageUrl %>' alt='<%= staff.name %>'>
+    <span class='c-avatar__status <% if(staff.status == "Đang làm việc") { %>online<% } else { %>offline<% } %>'></span>
+</div>
+<div class="card__status clearfix">
+    <input type="status" name="status" id="status" value="<%=staff.status ? staff.status : '--'%>" readonly>
+</div>
+
+
 <div class="form-control">
     <input type="hidden" name="imageUrl" id="imageUrl" value="<%= staff.imageUrl %>">
 </div>

@@ -24,5 +24,9 @@ router.get('/viewcheckout/:companyId',timekeepingCtrl.getViewCheckOut);
 
 router.get('/registryleave/:companyId', timekeepingCtrl.getLeave)
 router.post('/registryleave', timekeepingCtrl.postLeave);
+//Xem lại trang nghỉ phép với dữ liệu mới cập nhật
+router.get('/viewleave/:companyId',timekeepingCtrl.getViewLeave);
+
+
 
 module.exports = router;

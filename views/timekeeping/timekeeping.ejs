@@ -1,6 +1,7 @@
 <%- include('../includes/head.ejs') %>
     <link rel="stylesheet" href="/css/forms.css">
     <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/status.css">
 <%- include('../includes/navigation.ejs') %>
     <main>
         <% if (staffs.length > 0) { %> 
@@ -11,9 +12,14 @@
                             <h1 class="product__title"><%= staff.name %></h1>
                         </header>
                         <hr>
-                        <div class="card__image">
-                            <img src="<%= staff.imageUrl %>" alt="<%= staff.name %>">
+                        <div class='card__image c-avatar'>
+                            <img class='c-avatar__image' src='<%= staff.imageUrl %>' alt='<%= staff.name %>'>
+                            <span class='c-avatar__status <% if(staff.status == "Đang làm việc") { %>online<% } else { %>offline<% } %>'></span>
                         </div>
+                        <div class="card__status clearfix">
+                            <input type="status" name="status" id="status" value="<%= staff.status %>" readonly>
+                        </div>
+
                         <div class="card__content clearfix">
                             <label for="doB">Ngày sinh</label>
                             <input type="date" name="doB" id="doB" value="<%= staff.doB %>" readonly>
@@ -21,10 +27,6 @@
                         <div class="card__content clearfix">
                             <label for="department">Khoa phòng</label>
                             <input type="text" name="department" id="department" value="<%= staff.department %>" readonly>
-                        </div>
-                        <div class="card__content clearfix">
-                            <label for="status">Trạng thái</label>
-                            <input type="text" name="status" id="status" value="<%= staff.status %>" readonly>
                         </div>
                         <div class="card__content clearfix">
                             <input type="hidden" name="staffId" value="<%= staff._id %>">

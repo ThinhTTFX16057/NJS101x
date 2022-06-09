@@ -3,7 +3,9 @@
 * {
   box-sizing: border-box;
 }
-
+html, body {
+  height: 100%;
+}
 body {
   padding: 0;
   margin: 0;
@@ -87,6 +89,16 @@ form {
 .card__content textarea {
   width: 100%;
   margin-top: 1rem;
+}
+
+.card__status {
+  text-align: center;
+}
+.card__status input{
+  text-align: center;
+  border-width:0px;
+  border:none;
+  outline:none;
 }
 .card__header h1,
 .card__content h1,
@@ -176,10 +188,10 @@ form {
   }
 }
 #disappear{
-  width: 50%;
-  margin: 10px auto 0 auto;
+  margin: 0 0 0 1rem;
+  padding: 0;
   text-align: center;
-
+  color: yellow;
   animation: disappear 0.5s 1;
   animation-fill-mode: forwards;
   animation-delay:2s;

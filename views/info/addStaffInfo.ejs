@@ -1,10 +1,15 @@
 <%- include('../includes/head.ejs') %>
     <link rel="stylesheet" href="/css/forms.css">
     <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/status.css">
 
 <%- include('../includes/navigation.ejs') %>
     <main>
         <form class="product-form" action="/addstaff" method="POST">
+            <div class='card__image c-avatar'>
+                <img class='c-avatar__image' src='https://cdn1.iconfinder.com/data/icons/avatar-2-2/512/Employee-512.png' alt=''>
+                <span class='c-avatar__status offline } %>'></span>
+            </div>
             <div class="form-control">
                 <label for="imageUrl">Hình ảnh</label>
                 <input type="text" name="imageUrl" id="imageUrl">
@@ -12,12 +17,13 @@
             <div class="form-control">
                 <label for="companyId">Mã nhân viên</label>
                 <input type="text" name="companyId" id="companyId" value="<%= Math.floor((Math.random() * 10000) + 1); %>" readonly>
-                <bquote style="color:red"><code><em>Mã nhân viên được tạo tự động</em></code></quote>
+                <quote style="color:red"><code><em>Mã nhân viên được tạo tự động</em></code></quote>
             </div>
             <div class="form-control">
                 <label for="name">Họ tên nhân viên</label>
                 <input type="text" name="name" id="name">
-            </div><div class="form-control">
+            </div>
+            <div class="form-control">
                 <label for="status">Trạng thái</label>
                 <input type="text" name="status" id="status" value="--" readonly>
             </div>

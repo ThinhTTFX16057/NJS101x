@@ -1,21 +1,27 @@
 <%- include('../includes/head.ejs') %>
     <link rel="stylesheet" href="/css/forms.css">
     <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/status.css">
 <%- include('../includes/navigation.ejs') %>
     <main>
         <div class="grid">
             <% for (let staff of staffs) { %>
             <article class="card product-item">
-                <div class="card__image">
-                    <img src="<%= staff.imageUrl %>" alt="<%= staff.name %>">
+                <header class="card__header">
+                    <h1 class="product__title"><%= staff.name %></h1>
+                </header>
+                <hr>
+                <div class='card__image c-avatar'>
+                    <img class='c-avatar__image' src='<%= staff.imageUrl %>' alt='<%= staff.name %>'>
+                    <span class='c-avatar__status <% if(staff.status == "Đang làm việc") { %>online<% } else { %>offline<% } %>'></span>
                 </div>
+                <div class="card__status clearfix">
+                    <input type="status" name="status" id="status" readonly>
+                </div>
+
                 <div class="card__content clearfix">
                     <label for="companyId">Mã nhân viên</label>
                     <input type="text" name="companyId" id="companyId" value="<%= staff.companyId %>" readonly>
-                </div>
-                <div class="card__content clearfix">
-                    <label for="name">Họ tên nhân viên</label>
-                    <input type="text" name="name" id="name" value="<%= staff.name %>" readonly>
                 </div>
                 <div class="card__content clearfix">
                     <label for="doB">Ngày sinh</label>
@@ -34,7 +40,7 @@
                     <input type="number" name="salaryScale" id="salaryScale" value="<%= staff.salaryScale %>" readonly>
                 </div>
                 <div class="card__actions">
-                    <a href="/workinghours/info/<%= staff.companyId %>" class="btn">Get Working Hour Details</a>
+                    <a href="/workinghours/viewinfo/<%= staff.companyId %>" class="btn">View Details and Salary</a>
                 </div>
             </article> 
             

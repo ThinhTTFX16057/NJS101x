@@ -3,8 +3,8 @@ const getDb = require('../util/database').getDb;
 const ObjectId = mongodb.ObjectId;
 
 class WorkingHours {
-    constructor(staffId, companyId, name, imageUrl, annualLeave, salaryScale, details, total) {
-        this._id = staffId;
+    constructor(staffId, companyId, name, imageUrl, annualLeave, salaryScale, details, total, salary) {
+        this._id = staffId ? new ObjectId(staffId) : null;
         this.companyId = companyId;
         this.name = name;
         this.imageUrl = imageUrl;
@@ -13,70 +13,43 @@ class WorkingHours {
 
         this.details = details;
         this.total = total;
-    }
+        this.salary = salary;
 
-    //method get data tu database timekeeping de update len database workinghours
-    static getDataTimekeepingByCompanyId(companyId){
-        const db = getDb();
-        return db
-        .collection('timekeepings')
-        .findOne({ companyId: companyId })
-        .then(staff =>{return staff})
-        .catch(err => console.log(err));
-        
     }
-
-    //method save and upload data
-    save(){
+    // update data details, total, and salary 
+    updateData(){return new Promise((resolve, reject) => {
         const db = getDb();
-        return db.collection('workinghours')
-        .insertOne({"_id": new ObjectId(this._id), "companyId": this.companyId,
-        "name": this.name,
-        "imageUrl": this.imageUrl,
-        "annualLeave": this.annualLeave,
-        "salaryScale": this.salaryScale})
+        db.collection('workinghours').updateOne({companyId: this.companyId},{$set: {"details": this.details, "total": this.total, "salary": this.salary}});
+        resolve();
+        }).catch(error => console.log(error));
     }
-    updateData(){
+    // update data details, total, and salary 
+    searchData(){return new Promise((resolve, reject) => {
         const db = getDb();
-        return db.collection('workinghours')
-        .updateOne({companyId: this.companyId},{$set: {
-        "details": this.details, 
-        "total": this.total}})
+        db.collection('workinghours').updateOne({companyId: this.companyId},{$set: {"search": {"_id": new ObjectId(this._id), "companyId": this.companyId,  "name": this.name, "imageUrl": this.imageUrl, "annualLeave": this.annualLeave, "salaryScale": this.salaryScale, "details": this.details, "total": this.total, "salary": this.salary}}});
+        resolve();
+        }).catch(error => console.log(error));
     }
-    
-    //method load data de hien thi danh sach staff trong database workinghours
     static fetchAll() {
         const db = getDb();
-        return db
-        .collection('workinghours')
-        .find()
-        .toArray()
-        .then(staffs => {
-            return staffs;
-        })
-        .catch(err => console.log(err));
+        return db.collection('workinghours').find().toArray()
+            .then(staffs => {return staffs})
+            .catch(err => console.log(err));
     }
 
-    //method find staffId de hien thi giao dien getinfo va getsalary
+    //method find companyId de hien thi giao dien getinfo va getsalary
     static findById(companyId) {
         const db = getDb();
-        return db
-        .collection('workinghours')
-        .find({ companyId: companyId })
-        .next()
-        .then(staff => {
-            return staff;
-        })
-        .catch(err => console.log(err));
+        return db.collection('workinghours').findOne({ companyId: companyId })
+            .then(staff => {return staff})
+            .catch(err => console.log(err));
     }
 
-    //method delete theo staffId
+    //method delete theo companyId
     static deleteById(companyId) {
         const db = getDb();
-        return db
-        .collection('workinghours')
-        .deleteOne({ companyId: companyId })
-        .catch(err => console.log(err));
+        return db.collection('workinghours').deleteOne({ companyId: companyId })
+            .catch(err => console.log(err));
     }
 }
 

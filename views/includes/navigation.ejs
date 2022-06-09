@@ -19,9 +19,13 @@
                     <a class="<%= path === '/covid' ? 'active' : '' %>" href="/covid">COVID-19
                     </a>
                 </li>
+                <li class="main-header__item mobile-nav__item">
+                    <a class="<%= path === '/search' ? 'active' : '' %>" href="/search">Tìm kiếm
+                    </a>
+                </li>
             </ul>
         </nav>
+        <% if(pageTitle != 'Page Not Found') { %>
+            <h2 id="disappear">Chào mừng bạn đến với trang <%= pageTitle %></h2>
+        <% } %>
     </header>
-    <% if (display) { %>
-        <h2 id="disappear">Chào mừng bạn đến với trang <%= pageTitle %></h2>
-    <% } %>

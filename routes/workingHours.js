@@ -5,12 +5,15 @@ const router = express.Router();
 // MENU: Tra cuu gio lam, PATH: /workinghours
 router.get('/',workingHoursCtrl.getStaff);
 
-router.get('/info/:companyId', workingHoursCtrl.getInfo);
-// router.post('/info', workingHoursCtrl.postConfirm);
 
+router.get('/uploaddata/:companyId', workingHoursCtrl.uploadData);
+//Xem lại trang với dữ liệu mới cập nhật
+router.get('/viewinfo/:companyId',workingHoursCtrl.getViewInfo);
+router.get('/viewsalary/:companyId',workingHoursCtrl.getViewSalary);
+router.get('/searchinfo/:companyId',workingHoursCtrl.getViewSearchInfo);
+router.get('/searchsalary/:companyId',workingHoursCtrl.getViewSearchSalary);
 
-// router.get('/salary/:companyId', workingHoursCtrl.getSalary)
-//router.post('/getsalary', workingHoursCtrl.postSalary);
+router.get('/error/:companyId',workingHoursCtrl.getSearchError);
 
 module.exports = router;
  

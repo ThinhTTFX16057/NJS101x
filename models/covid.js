@@ -22,69 +22,62 @@ class Covid {
     this.treatmentTime = treatmentTime;
   }
 
-  save() {
-    const db = getDb();
-    return db
-      .collection('covids')
-      .insertOne({
-        "_id": this._id,
-        "companyId": this.companyId,
-        "name": this.name,
-        "imageUrl": this.imageUrl,
-        "staffTemp": [],
-        "staffVaccine": null,
-        "staffPositive": []
-      });
-  }
   updateBodyTemp() {
-    const db = getDb();
-    db.collection('covids').findOne({ _id: this._id}).then(staff => {
-      let oldStaffTemp = staff ? staff.staffTemp : [];
-      const newStaffTemp = oldStaffTemp.concat([{"_id": new ObjectId(null), "bodyTemp": this.bodyTemperature, "dateTemp": this.dateTemperature}] );
+    return new Promise((resolve, reject) => {
+      const db = getDb();
+      db.collection('covids').findOne({ _id: this._id}).then(staff => {
+        let oldStaffTemp = staff.staffTemp ? staff.staffTemp : [];
+        const newStaffTemp = oldStaffTemp.concat([{"_id": new ObjectId(null), "bodyTemp": this.bodyTemperature, "dateTemp": this.dateTemperature}] );
 
-      return db.collection('covids')
-        .updateOne({_id: this._id },{$set:{"staffTemp": newStaffTemp}
-      });
-    })    
+        db.collection('covids').updateOne({_id: this._id },{$set:{"staffTemp": newStaffTemp}});
+        resolve();
+      })
+      
+    }).catch(error => console.log(error));
   }
+
   updateVaccine() {
-    const db = getDb();
-    const newStaffVaccine = {"_id": new ObjectId(null),"dateVac_1": this.dateFirstVaccine, "Vac_1":this.firstVaccine, "dateVac_2": this.dateSecondVaccine, "Vac_2":this.secondVaccine};
+    return new Promise((resolve, reject) => {
+      const db = getDb();
+      const newStaffVaccine = {"_id": new ObjectId(null),"dateVac_1": this.dateFirstVaccine, "Vac_1":this.firstVaccine, "dateVac_2": this.dateSecondVaccine, "Vac_2":this.secondVaccine};
 
-    return db.collection('covids')
-      .updateOne({_id: this._id },{$set: {"staffVaccine": newStaffVaccine}
-    });
-
+      db.collection('covids').updateOne({_id: this._id },{$set: {"staffVaccine": newStaffVaccine}});
+      resolve();
+    }).catch(error => console.log(error));
   }
+
   updatePositive() {
-    const db = getDb();
-    db.collection('covids').findOne({ _id: this._id}).then(staff => {
-      let oldStaffPos = staff ? staff.staffPositive : [];
-      const newStaffPos = oldStaffPos.concat([{"_id": new ObjectId(null), "datePositive": this.datePositive, "treatmentPlace": this.treatmentPlace, "treatmentTime": this.treatmentTime}]);
+    return new Promise((resolve, reject) => {
+      const db = getDb();
+      db.collection('covids').findOne({ _id: this._id}).then(staff => {
+        let oldStaffPos = staff.staffPositive ? staff.staffPositive : [];
+        const newStaffPos = oldStaffPos.concat([{"_id": new ObjectId(null), "datePositive": this.datePositive, "treatmentPlace": this.treatmentPlace, "treatmentTime": this.treatmentTime}]);
 
-      return db.collection('covids')
-        .updateOne({_id: this._id },{$set:{"staffPositive": newStaffPos}
-      });
-    })    
+        db.collection('covids').updateOne({_id: this._id },{$set:{"staffPositive": newStaffPos}});
+        resolve();
+      })    
+    }).catch(error => console.log(error));
   }
-  
+
+  //method load data de hien thi danh sach staff trong database covids
+  static fetchAll() {
+    const db = getDb();
+    return db.collection('covids').find().toArray()
+      .then(staffs => {return staffs})
+      .catch(err => console.log(error));
+  }
+  //method find companyId de hien thi giao dien body temperature, vaccine, positive theo companyId
   static findById(companyId) {
     const db = getDb();
-    return db
-      .collection('covids')
-      .findOne({ companyId: companyId })
-      .then(staff => {
-        return staff;
-      })
+    return db.collection('covids').findOne({ companyId: companyId })
+      .then(staff => {return staff})
       .catch(err => console.log(err));
   }
 
-  //method delete theo staffId
+  //method delete theo companyId
   static deleteById(companyId) {
     const db = getDb();
-    return db
-      .collection('covids')
-      .deleteOne({ companyId: companyId })
+    return db.collection('covids').deleteOne({ companyId: companyId })
       .catch(err => console.log(err));
   }
 }

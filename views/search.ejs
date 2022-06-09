@@ -1,0 +1,28 @@
+<%- include('./includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/product.css">
+
+<%- include('./includes/navigation.ejs') %>
+    <main style="height: 100%;opacity: 0.8;background-image: url('https://avatars.design/wp-content/uploads/2021/02/team-avatars-photo-to-group-1.jpg');">
+        <form class="product-form" action="/search" method="POST">
+            <div class="form-control">
+                <label for="subject">Thông tin cần tìm</label>
+                <select name="subject" id="subject">
+                    <option value="editstaff" selected>Info, sửa ảnh đại diện</option>
+                    <option value="timekeeping/viewcheckin">Checkin</option>
+                    <option value="timekeeping/viewcheckout">Checkout</option>
+                    <option value="timekeeping/viewleave">Nghỉ phép</option>
+                    <option value="covid/viewbodytemp">Thân nhiệt</option>
+                    <option value="covid/viewvaccine">Vaccine</option>
+                    <option value="covid/viewpositive">Dương tính COVID</option>
+                    <option value="workinghours/uploaddata">Lương và giờ làm</option>
+                </select>
+            </div>
+            <div class="form-control">
+                <label for="companyId">Mã nhân viên</label>
+                <input type="text" name="companyId" id="companyId">
+            </div>
+            <button class="btn" type="submit">Search</button>
+        </form>
+    </main>
+<%- include('./includes/end.ejs') %>

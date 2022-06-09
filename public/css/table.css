@@ -23,6 +23,7 @@ h2{
 }
 
 .fl-table {
+    table-layout: fixed;
     border-radius: 5px;
     font-size: 12px;
     font-weight: normal;
@@ -30,13 +31,14 @@ h2{
     border-collapse: collapse;
     width: 100%;
     max-width: 100%;
-    white-space: nowrap;
     background-color: white;
 }
 
 .fl-table td, .fl-table th {
     text-align: center;
     padding: 8px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .fl-table td {
@@ -61,7 +63,7 @@ h2{
 
 /* Responsive */
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
     .fl-table {
         display: block;
         width: 100%;
@@ -74,7 +76,7 @@ h2{
         color: white;
         padding: 0 0 10px;
     }
-    .fl-table thead, .fl-table tbody, .fl-table thread th {
+    .fl-table thead, .fl-table tbody, .fl-table thead th {
         display: block;
     }
     .fl-table thead th:last-child{
@@ -99,7 +101,7 @@ h2{
         font-size: 13px;
         text-overflow: ellipsis;
     }
-    .fl-table thread th {
+    .fl-table thead th {
         text-align: left;
         border-bottom: 1px solid #f7f7f9;
     }
