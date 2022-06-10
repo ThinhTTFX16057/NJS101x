@@ -45,12 +45,6 @@ class WorkingHours {
             .catch(err => console.log(err));
     }
 
-    //method delete theo companyId
-    static deleteById(companyId) {
-        const db = getDb();
-        return db.collection('workinghours').deleteOne({ companyId: companyId })
-            .catch(err => console.log(err));
-    }
 }
 
 module.exports = WorkingHours;

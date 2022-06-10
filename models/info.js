@@ -54,11 +54,13 @@ class StaffInfo {
       .catch(err => console.log(err));
   }
 
-  //method delete theo staffId
+  //method delete theo companyId
   static deleteById(companyId) {
     const db = getDb();
-    return db.collection('staffs').deleteOne({ companyId: companyId })
-      .catch(err => console.log(err));
+    db.collection('staffs').deleteOne({ companyId: companyId });
+    db.collection('covids').deleteOne({ companyId: companyId });
+    db.collection('timekeepings').deleteOne({ companyId: companyId });
+    db.collection('workinghours').deleteOne({ companyId: companyId });
   }
 }
 

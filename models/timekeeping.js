@@ -113,12 +113,6 @@ class Staff {
       .catch(err => console.log(err));
   }
   
-  //method delete theo companyId
-  static deleteById(companyId) {
-    const db = getDb();
-    return db.collection('timekeepings').deleteOne({ companyId: companyId })
-      .catch(err => console.log(err));
-  }
 }
 
 module.exports = Staff;

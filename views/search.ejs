@@ -1,7 +1,4 @@
 <%- include('./includes/head.ejs') %>
-    <link rel="stylesheet" href="/css/forms.css">
-    <link rel="stylesheet" href="/css/product.css">
-
 <%- include('./includes/navigation.ejs') %>
     <main style="height: 100%;opacity: 0.8;background-image: url('https://avatars.design/wp-content/uploads/2021/02/team-avatars-photo-to-group-1.jpg');">
         <form class="product-form" action="/search" method="POST">
@@ -19,8 +16,12 @@
                 </select>
             </div>
             <div class="form-control">
-                <label for="companyId">Mã nhân viên</label>
-                <input type="text" name="companyId" id="companyId">
+                <label for="companyId">Họ tên nhân viên (mã nhân viên)</label>
+                <select name="companyId" id="companyId">
+                    <% for (let staff of staffs) { %>
+                    <option value="<%=staff.companyId %>"><%= staff.name %> (<%= staff.companyId %>)</option>
+                    <% } %>
+                </select>
             </div>
             <button class="btn" type="submit">Search</button>
         </form>

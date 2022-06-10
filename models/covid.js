@@ -74,12 +74,6 @@ class Covid {
       .catch(err => console.log(err));
   }
 
-  //method delete theo companyId
-  static deleteById(companyId) {
-    const db = getDb();
-    return db.collection('covids').deleteOne({ companyId: companyId })
-      .catch(err => console.log(err));
-  }
 }
 
 module.exports = Covid;

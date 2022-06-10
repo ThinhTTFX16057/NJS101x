@@ -1,11 +1,15 @@
 const WorkingHours = require('../models/workingHours');
-const moment = require('moment');
+const StaffInfo = require('../models/info');
 
 //MENU:  SEARCH
-exports.getSearch = (req, res) =>{res.render('search.ejs', {
-    pageTitle: 'Tìm kiếm thông tin',
-    path: '/search',
-  })
+exports.getSearch = (req, res) =>{
+    StaffInfo.fetchAll().then(staffs =>{res.render('search.ejs', {
+        pageTitle: 'Tìm kiếm thông tin',
+        path: '/search',
+        staffs: staffs
+      })
+    })
+    
 }
 
 exports.postSearch = (req, res) => {
