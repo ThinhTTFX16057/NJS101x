@@ -3,8 +3,8 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const errorController = require('./controllers/error');
 
+const errorController = require('./controllers/error');
 const User = require('./models/user');
 
 const app = express();
@@ -14,6 +14,7 @@ app.set('views', 'views');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -29,19 +30,29 @@ app.use((req, res, next) => {
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
+app.use(authRoutes);
 
 app.use(errorController.get404);
 
 mongoose
-  .connect('mongodb+srv://thinhtran:pass123@cluster0.njciaw0.mongodb.net/shop')
+  .connect(
+    'mongodb+srv://thinhtran:pass123@cluster0.njciaw0.mongodb.net/shop'
+  )
   .then(result => {
-    User.findOne().then(user =>{
+    User.findOne().then(user => {
       if (!user) {
-        const user = new User({name: 'Thinh', email: 'test@test.com', cart:{items: []}});
+        const user = new User({
+          name: 'Thinh',
+          email: 'test@test.com',
+          cart: {
+            items: []
+          }
+        });
         user.save();
       }
-    })
-    
+    });
     app.listen(3000);
   })
-  .catch(err => console.log(err));
+  .catch(err => {
+    console.log(err);
+  });
