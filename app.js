@@ -22,6 +22,7 @@ const csrfProtection = csrf();
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
+
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
@@ -42,6 +43,13 @@ app.use((req, res, next) => {
   })
   .catch(err => console.log(err));
 });
+
+app.use((req, res, next) =>{
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken =  req.csrfToken();
+  next();
+})
+
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
