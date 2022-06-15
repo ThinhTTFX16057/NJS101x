@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
-const Product = require('../models/product');
+
 const { validationResult } = require('express-validator/check');
+
+const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
   res.render('admin/edit-product', {
@@ -15,23 +17,32 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
-  const imageUrl = req.body.image;
+  const imageUrl = req.file;
   const price = req.body.price;
   const description = req.body.description;
+  console.log(imageUrl);
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
+    console.log(errors.array());
     return res.status(422).render('admin/edit-product', {
-      path: '/admin/add-product',
       pageTitle: 'Add Product',
+      path: '/admin/add-product',
       editing: false,
       hasError: true,
-      product: {title: title, imageUrl: imageUrl, price: price, description: description},
+      product: {
+        title: title,
+        imageUrl: imageUrl,
+        price: price,
+        description: description
+      },
       errorMessage: errors.array()[0].msg,
       validationErrors: errors.array()
     });
   }
+
   const product = new Product({
-    // _id: new mongoose.Types.ObjectId('6294dbb69524a34d8e441998'),
+    // _id: new mongoose.Types.ObjectId('5badf72403fd8b5be0366e81'),
     title: title,
     price: price,
     description: description,
@@ -47,12 +58,17 @@ exports.postAddProduct = (req, res, next) => {
     })
     .catch(err => {
       // return res.status(500).render('admin/edit-product', {
-      //   path: '/admin/add-product',
       //   pageTitle: 'Add Product',
+      //   path: '/admin/add-product',
       //   editing: false,
       //   hasError: true,
-      //   product: {title: title, imageUrl: imageUrl, price: price, description: description},
-      //   errorMessage: 'Database operation failed, please try again',
+      //   product: {
+      //     title: title,
+      //     imageUrl: imageUrl,
+      //     price: price,
+      //     description: description
+      //   },
+      //   errorMessage: 'Database operation failed, please try again.',
       //   validationErrors: []
       // });
       // res.redirect('/500');
@@ -96,18 +112,27 @@ exports.postEditProduct = (req, res, next) => {
   const updatedPrice = req.body.price;
   const updatedImageUrl = req.body.imageUrl;
   const updatedDesc = req.body.description;
+
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
     return res.status(422).render('admin/edit-product', {
-      path: '/admin/edit-product',
       pageTitle: 'Edit Product',
-      editing: false,
+      path: '/admin/edit-product',
+      editing: true,
       hasError: true,
-      product: {title: updatedTitle, imageUrl: updatedImageUrl, price: updatedPrice, description: updatedDesc, _id: prodId},
+      product: {
+        title: updatedTitle,
+        imageUrl: updatedImageUrl,
+        price: updatedPrice,
+        description: updatedDesc,
+        _id: prodId
+      },
       errorMessage: errors.array()[0].msg,
       validationErrors: errors.array()
     });
   }
+
   Product.findById(prodId)
     .then(product => {
       if (product.userId.toString() !== req.user._id.toString()) {
