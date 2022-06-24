@@ -78,7 +78,7 @@
                             %>
                                 <tr>
                                     <td><%= new Date(tp.date).toLocaleDateString('en-GB') %></td>
-                                    <td><%= tp.timeStart %></td>
+                                    <td><%= moment.utc(tp.timeStart).utcOffset("+07:00") %></td>
                                     <td><%= tp.workplace %></td>
                                 </tr>
                             <% }} %>

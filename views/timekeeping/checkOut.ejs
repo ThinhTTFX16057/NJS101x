@@ -79,8 +79,8 @@
                                 <tr>
                                     <td><%= new Date(tp.date).toLocaleDateString('en-GB') %></td>
                                     <td><%= parseFloat(tp.workHours).toFixed(2) %></td>
-                                    <td><%= tp.timeStart %></td>
-                                    <td><%= tp.timeEnd ? tp.timeEnd : 'chưa checkout' %></td>
+                                    <td><%= moment.utc(tp.timeStart).utcOffset("+07:00") %></td>
+                                    <td><%= tp.timeEnd ? moment.utc(tp.timeEnd).utcOffset("+07:00") : 'chưa checkout' %></td>
                                     <td><%= tp.workplace %></td>
                                 </tr>
                             <% }} %>
