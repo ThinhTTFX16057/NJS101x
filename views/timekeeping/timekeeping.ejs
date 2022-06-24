@@ -10,16 +10,16 @@
                         </header>
                         <hr>
                         <div class='card__image c-avatar'>
-                            <img class='c-avatar__image' src='<%= staff.imageUrl %>' alt='<%= staff.name %>'>
+                            <img class='c-avatar__image' src='/<%= staff.imageUrl %>' alt='<%= staff.name %>'>
                             <span class='c-avatar__status <% if(staff.status == "Đang làm việc") { %>online<% } else { %>offline<% } %>'></span>
                         </div>
                         <div class="card__status clearfix">
-                            <input type="status" name="status" id="status" value="<%= staff.status %>" readonly>
+                            <input type="text" name="status" id="status" value="<%= staff.status %>" readonly>
                         </div>
 
                         <div class="card__content clearfix">
                             <label for="doB">Ngày sinh</label>
-                            <input type="date" name="doB" id="doB" value="<%= staff.doB %>" readonly>
+                            <input type="date" name="doB" id="doB" value="<%= moment(staff.doB).utc().format('YYYY-MM-DD') %>" readonly>
                         </div>
                         <div class="card__content clearfix">
                             <label for="department">Khoa phòng</label>
@@ -28,18 +28,22 @@
                         <div class="card__content clearfix">
                             <input type="hidden" name="staffId" value="<%= staff._id %>">
                         </div>
+                        
                         <div class="card__actions">
-                            <a href="/timekeeping/checkin/<%= staff.companyId %>" class="btn">Checkin</a>
-                            <a href="/timekeeping/checkout/<%= staff.companyId %>" class="btn">Checkout</a>
+                            <a href="/timekeeping/checkin/<%= staff.companyId %>" class="btn">Điểm danh</a>
+                            <a href="/timekeeping/checkout/<%= staff.companyId %>" class="btn">Kết thúc làm</a>
                         </div>
                         <div class="card__actions">
-                            <a href="/timekeeping/registryleave/<%= staff.companyId %>" class="btn">Registry Leave</a>
+                            <a href="/timekeeping/registryleave/<%= staff.companyId %>" class="btn">Đăng ký nghỉ phép</a>
                         </div>
                     </article>
                 <% } %>
             </div>
         <% } else { %>
-            <h1>No Staffs Found!</h1>
+            <h1>Chưa có nhân viên nào, vui lòng thêm nhân viên!</h1>
+            <div class="clearfix">
+                <a href="/addstaff" class="btn" style="display: flex; justify-content: center; align-items: center; height: 40px; border: 2px solid green; margin: 1rem">Thêm nhân viên</a>
+            </div>
         <% } %>
     </main>
 <%- include('../includes/end.ejs') %>

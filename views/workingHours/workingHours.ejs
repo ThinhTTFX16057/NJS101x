@@ -9,11 +9,11 @@
                 </header>
                 <hr>
                 <div class='card__image c-avatar'>
-                    <img class='c-avatar__image' src='<%= staff.imageUrl %>' alt='<%= staff.name %>'>
+                    <img class='c-avatar__image' src='/<%= staff.imageUrl %>' alt='<%= staff.name %>'>
                     <span class='c-avatar__status <% if(staff.status == "Đang làm việc") { %>online<% } else { %>offline<% } %>'></span>
                 </div>
                 <div class="card__status clearfix">
-                    <input type="status" name="status" id="status" readonly>
+                    <input type="text" name="status" id="status" readonly>
                 </div>
 
                 <div class="card__content clearfix">
@@ -22,7 +22,7 @@
                 </div>
                 <div class="card__content clearfix">
                     <label for="doB">Ngày sinh</label>
-                    <input type="date" name="doB" id="doB" value="<%= staff.doB %>" readonly>
+                    <input type="date" name="doB" id="doB" value="<%= moment(staff.doB).utc().format('YYYY-MM-DD') %>" readonly>
                 </div>
                 <div class="card__content clearfix">
                     <label for="department">Khoa phòng</label>
@@ -30,14 +30,14 @@
                 </div>
                 <div class="card__content clearfix">
                     <label for="annualLeave">Số ngày phép của năm</label>
-                    <input type="text" name="annualLeave" id="annualLeave" value="<%= staff.annualLeave %>" readonly>
+                    <input type="number" name="annualLeave" id="annualLeave" value="<%= staff.annualLeave %>" readonly>
                 </div>
                 <div class="card__content clearfix">
                     <label for="salaryScale">Hệ số lương</label>
                     <input type="number" name="salaryScale" id="salaryScale" value="<%= staff.salaryScale %>" readonly>
                 </div>
                 <div class="card__actions">
-                    <a href="/workinghours/uploaddata/<%= staff.companyId %>" class="btn">View Details and Salary</a>
+                    <a href="/workinghours/details/<%= staff.companyId %>?page=1&sort=ngày&numberOfRow=10" class="btn">Tra cứu giờ làm</a>
                 </div>
             </article> 
             
