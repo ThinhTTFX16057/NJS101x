@@ -52,7 +52,7 @@ exports.postCheckIn = (req, res) => {
   const date = moment(req.body.date).format("YYYY-MM-DD");
   const monthOfYear = moment(req.body.date).format("MM-YYYY");
   const workplace = req.body.workplace;
-  const timeStart = moment().format('HH:mm:ss');
+  const timeStart = moment().add(7, 'hours').format('HH:mm:ss');
   //lấy giờ nghỉ phép (nếu có) có cùng ngày với ngày thực hiện checkin
   let leaveHours = 0;
   Data.findOne({companyId: companyId}).then(data => {
@@ -123,7 +123,7 @@ exports.postCheckOut = (req, res) => {
   const companyId = req.body.companyId;
   const status = "Không làm việc";
   const timeStart = req.body.timeStart;
-  const timeEnd = moment().format('HH:mm:ss');
+  const timeEnd = moment().add(7, 'hours').format('HH:mm:ss');
   const workHours = moment.duration(moment(timeEnd, 'HH:mm:ss').diff( moment(timeStart, 'HH:mm:ss') )).asHours();
   //upload dữ liệu timeEnd
   Data.findOneAndUpdate(
