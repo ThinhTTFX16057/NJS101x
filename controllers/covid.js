@@ -4,7 +4,7 @@ const moment = require('moment');
 const fs = require('fs');
 const path = require('path');
 const PDFDocument = require('pdfkit');
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator');
 
 //MENU:  COVID --> fetch staff
 exports.getStaff = (req, res) =>{

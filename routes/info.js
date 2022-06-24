@@ -1,7 +1,7 @@
 const express = require('express');
 const staffInfoCtrl = require('../controllers/info');
 
-const { body } = require('express-validator/check');
+const { body } = require('express-validator');
 const isAuth = require('../middleware/is-auth');
 
 const router = express.Router();

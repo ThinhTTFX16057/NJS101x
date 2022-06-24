@@ -2,7 +2,7 @@ const Data = require('../models/data');
 const Info = require('../models/info');
 const moment = require('moment');
 const ObjectId = require('mongodb').ObjectId;
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator');
 
 
 //MENU:  TIMEKEEPING --> fetch staff

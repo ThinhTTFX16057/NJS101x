@@ -43,6 +43,11 @@
                     <div class="form-control">
                         <input type="hidden" name="staffId" value="<%= staff._id %>">
                     </div>
+                    <% if (!confirmedStatus) { %>
+                        <div class="card__actions">
+                            <a class="btn danger" style="pointer-events: none;" href='' disabled> Dữ liệu chưa được xác nhận bởi quản lý! Số liệu tổng kết theo ngày và lương tháng có thể không chính xác</a>
+                        </div>
+                    <% } %>
                     <div class="card__actions">
                         <a style="width: 15rem; margin: 0.25rem" href="/workinghours/summary/<%= staff.companyId %>?numberOfRow=10" class="btn">Tổng kết theo ngày</a>
                         <a style="width: 15rem; margin: 0.25rem" href="/workinghours/salary/<%= staff.companyId %>" class="btn">Lương tháng</a>

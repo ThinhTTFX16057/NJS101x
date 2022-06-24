@@ -62,6 +62,7 @@ exports.getDetails = (req, res) =>{
               previousPage: page - 1,
               lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
               staff: staff,
+              confirmedStatus: data.confirmedStatus,
               details: details,
               moment: moment,
               searchError: false,
@@ -112,6 +113,7 @@ exports.postDetails = (req, res) =>{
               previousPage: page - 1,
               lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
               staff: staff,
+              confirmedStatus: data.confirmedStatus,
               details: details,    //hiển thị dữ liệu cho route có phân trang
               moment: moment,
               searchError: false,
@@ -160,6 +162,7 @@ exports.getSummary = (req, res) =>{
               previousPage: page - 1,
               lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
               staff: staff,
+              confirmedStatus: data.confirmedStatus,
               summary: summary,
               moment: moment,
               searchError: false,
@@ -208,6 +211,7 @@ exports.postSummary = (req, res) =>{
               previousPage: page - 1,
               lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
               staff: staff,
+              confirmedStatus: data.confirmedStatus,
               summary: summary,
               moment: moment,
               searchError: false,
@@ -239,6 +243,7 @@ exports.getSalary = (req, res) =>{
           pageTitle: 'Lương tháng',
           path: '/workinghours',
           staff: staff,
+          confirmedStatus: data.confirmedStatus,
           salary: salary,
           moment: moment,
           searchError: false,
@@ -254,27 +259,28 @@ exports.getSalary = (req, res) =>{
 exports.postSalary = (req, res) =>{
   const companyId = req.body.companyId;
   const monthOfYear = req.body.monthOfYear;
-
-  Data.aggregate([
-    {$match: {companyId: companyId}},
-    {$unwind: '$salary'},
-    {$project: {_id: 0, 'monthOfYear': '$salary.monthOfYear', 'workHoursPerMonth': '$salary.workHoursPerMonth', 'totalOverTime': '$salary.totalOverTime', 'totalUnderTime': '$salary.totalUnderTime', 'salary': '$salary.salary'}}
-  ])
-  .then(salary=>{
-    Info.findOne({companyId: companyId}).then(staff=>{
-      res.render('workingHours/salary', {
-        pageTitle: 'Lương tháng',
-        path: '/workinghours',
-        staff: staff,
-        salary: salary,
-        moment: moment,
-        searchError: false,
-        userAdmin: staff.userAdmin,
-        monthOfYear: monthOfYear
+  Data.findOne({companyId: companyId}, (err, data) => {
+    Data.aggregate([
+      {$match: {companyId: companyId}},
+      {$unwind: '$salary'},
+      {$project: {_id: 0, 'monthOfYear': '$salary.monthOfYear', 'workHoursPerMonth': '$salary.workHoursPerMonth', 'totalOverTime': '$salary.totalOverTime', 'totalUnderTime': '$salary.totalUnderTime', 'salary': '$salary.salary'}}
+    ])
+    .then(salary=>{
+      Info.findOne({companyId: companyId}).then(staff=>{
+        res.render('workingHours/salary', {
+          pageTitle: 'Lương tháng',
+          path: '/workinghours',
+          staff: staff,
+          confirmedStatus: data.confirmedStatus,
+          salary: salary,
+          moment: moment,
+          searchError: false,
+          userAdmin: staff.userAdmin,
+          monthOfYear: monthOfYear
+        })
       })
     })
   })
-
 }
 
 
@@ -309,6 +315,7 @@ exports.postSearch = (req, res) => {
         pageTitle: 'Tìm kiếm',
         path: '/workinghours',
         staff: staff,
+        confirmedStatus: true,
         moment: moment,
         mode: null,
         error: true,
@@ -332,6 +339,7 @@ exports.postSearch = (req, res) => {
           pageTitle: 'Tìm kiếm',
           path: '/workinghours',
           staff: staff,
+          confirmedStatus: true,
           moment: moment,
           mode: null,
           error: true,
@@ -346,13 +354,13 @@ exports.postSearch = (req, res) => {
       if (item[0].trim().toLowerCase() == 'month') {keywordList.month = item[1]}
     }
   }
-console.log(keywordList);
   // nếu không nhập mode hoặc nhập đồng thời ngày và tháng
   if (!keywordList.mode || (keywordList.date && keywordList.month)) {
     return Info.findOne({companyId: companyId}).then(staff=>{
       res.render('workingHours/search', {
         pageTitle: 'Tìm kiếm',
         path: '/workinghours',
+        confirmedStatus: true,
         staff: staff,
         moment: moment,
         mode: null,
@@ -364,6 +372,7 @@ console.log(keywordList);
   }
   // nếu có nhập mode=salary
   if (keywordList.mode == 'salary') {
+  Data.findOne({companyId: companyId}, (err, data) => {
     Data.aggregate([
       {$match: {companyId: companyId}},
       {$unwind: '$salary'},
@@ -376,6 +385,7 @@ console.log(keywordList);
           pageTitle: 'Lương tháng',
           path: '/workinghours',
           staff: staff,
+          confirmedStatus: data.confirmedStatus,
           salary: salary,
           moment: moment,
           mode: 'salary',
@@ -387,66 +397,76 @@ console.log(keywordList);
         })
       })
     })
+  })
+    
   }
 
   // nếu có nhập mode = details
   if (keywordList.mode == 'details') {
     const sortType = req.body.sort || 'ngày';
-    Data.aggregate([
-      {$match: {companyId: companyId}},
-      {$unwind: '$timekeeping'},
-      {$sort: sortType == 'ngày' ? {'timekeeping.date': 1} : {'timekeeping.workplace': 1}},
-      {$project: {_id: 0, 'date': '$timekeeping.date', 'monthOfYear': '$timekeeping.monthOfYear', 'workplace': '$timekeeping.workplace', 'timeStart': '$timekeeping.timeStart', 'timeEnd': '$timekeeping.timeEnd', 'workHours': '$timekeeping.workHours', 'leaveHours': '$timekeeping.leaveHours'}}
-    ])
-    .then(details=>{
-      Info.findOne({companyId: companyId}).then(staff=>{
-        res.render('workingHours/search', {
-          pageTitle: 'Tìm kiếm',
-          path: '/workinghours',
-          staff: staff,
-          details: details,    //hiển thị dữ liệu cho route có phân trang
-          moment: moment,
-          mode: 'details',
-          error: false,
-          errorMessage: null,
-          oldInput: req.body.keywords,
-          sort: sortType,
-          date: keywordList.date,
-          month: keywordList.month,
-          workplace: keywordList.workplace,
-          keywords: req.body.keywords
+    Data.findOne({companyId: companyId}, (err, data) => {
+      Data.aggregate([
+        {$match: {companyId: companyId}},
+        {$unwind: '$timekeeping'},
+        {$sort: sortType == 'ngày' ? {'timekeeping.date': 1} : {'timekeeping.workplace': 1}},
+        {$project: {_id: 0, 'date': '$timekeeping.date', 'monthOfYear': '$timekeeping.monthOfYear', 'workplace': '$timekeeping.workplace', 'timeStart': '$timekeeping.timeStart', 'timeEnd': '$timekeeping.timeEnd', 'workHours': '$timekeeping.workHours', 'leaveHours': '$timekeeping.leaveHours'}}
+      ])
+      .then(details=>{
+        Info.findOne({companyId: companyId}).then(staff=>{
+          res.render('workingHours/search', {
+            pageTitle: 'Tìm kiếm',
+            path: '/workinghours',
+            staff: staff,
+            confirmedStatus: true,
+            details: details,    //hiển thị dữ liệu cho route có phân trang
+            moment: moment,
+            mode: 'details',
+            error: false,
+            errorMessage: null,
+            oldInput: req.body.keywords,
+            sort: sortType,
+            date: keywordList.date,
+            month: keywordList.month,
+            workplace: keywordList.workplace,
+            keywords: req.body.keywords
+          })
         })
       })
     })
+    
   }
 
   // nếu có nhập mode = summary
   if (keywordList.mode == 'summary') {
     const sortType = req.body.sort || 'ngày';
-    Data.aggregate([
-      {$match: {companyId: companyId}},
-      {$unwind: '$timekeepingPerDay'},
-      {$sort: {'timekeepingPerDay.date': 1}},
-      {$project: {_id: 0, 'date': '$timekeepingPerDay.date', 'monthOfYear': '$timekeepingPerDay.monthOfYear', 'workHoursPerDay': '$timekeepingPerDay.workHoursPerDay', 'leaveHoursPerDay': '$timekeepingPerDay.leaveHoursPerDay', 'overTime': '$timekeepingPerDay.overTime', 'underTime': '$timekeepingPerDay.underTime'}}
-    ])
-    .then(summary=>{
-      Info.findOne({companyId: companyId}).then(staff=>{
-        res.render('workingHours/search', {
-          pageTitle: 'Tìm kiếm',
-          path: '/workinghours',
-          staff: staff,
-          summary: summary,
-          moment: moment,
-          mode: 'summary',
-          error: false,
-          errorMessage: null,
-          oldInput: req.body.keywords,
-          sort: sortType,
-          date: keywordList.date,
-          month: keywordList.month,
-          keywords: req.body.keywords
+    Data.findOne({companyId: companyId}, (err, data) => {
+      Data.aggregate([
+        {$match: {companyId: companyId}},
+        {$unwind: '$timekeepingPerDay'},
+        {$sort: {'timekeepingPerDay.date': 1}},
+        {$project: {_id: 0, 'date': '$timekeepingPerDay.date', 'monthOfYear': '$timekeepingPerDay.monthOfYear', 'workHoursPerDay': '$timekeepingPerDay.workHoursPerDay', 'leaveHoursPerDay': '$timekeepingPerDay.leaveHoursPerDay', 'overTime': '$timekeepingPerDay.overTime', 'underTime': '$timekeepingPerDay.underTime'}}
+      ])
+      .then(summary=>{
+        Info.findOne({companyId: companyId}).then(staff=>{
+          res.render('workingHours/search', {
+            pageTitle: 'Tìm kiếm',
+            path: '/workinghours',
+            staff: staff,
+            confirmedStatus: data.confirmedStatus,
+            summary: summary,
+            moment: moment,
+            mode: 'summary',
+            error: false,
+            errorMessage: null,
+            oldInput: req.body.keywords,
+            sort: sortType,
+            date: keywordList.date,
+            month: keywordList.month,
+            keywords: req.body.keywords
+          })
         })
       })
     })
+    
   }
 }

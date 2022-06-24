@@ -1,7 +1,7 @@
 const express = require('express');
 const timekeepingCtrl = require('../controllers/timekeeping');
 const router = express.Router();
-const { body } = require('express-validator/check');
+const { body } = require('express-validator');
 const isAuth = require('../middleware/is-auth');
 
 // MENU: Chấm công, PATH: /timekeeping

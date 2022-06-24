@@ -31,6 +31,11 @@
                         <label for="salaryScale">Hệ số lương</label>
                         <input type="number" name="salaryScale" id="salaryScale" value="<%= staff.salaryScale %>" disabled>
                     </div>
+                    <% if (!confirmedStatus) { %>
+                        <div class="card__actions">
+                            <a class="btn danger" style="pointer-events: none;" href='' disabled> Dữ liệu chưa được xác nhận bởi quản lý! Số liệu tổng kết theo ngày và lương tháng có thể không chính xác</a>
+                        </div>
+                    <% } %>
                 </form>
             </article>
             <article class="card product-table">

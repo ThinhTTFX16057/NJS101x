@@ -69,8 +69,8 @@
                                     <tr>
                                         <th>Ngày làm việc</th>
                                         <th>Nơi làm việc</th>
-                                        <th>Giờ bắt đầu</th>
-                                        <th>Giờ kết thúc</th>
+                                        <th  style="width:120px" >Giờ bắt đầu</th>
+                                        <th  style="width:120px" >Giờ kết thúc</th>
                                         <th>Số giờ làm 1 lần chấm công</th>
                                         <th>Số giờ đăng kí nghỉ trong ngày</th>
                                         <th>Sửa thông tin</th>
@@ -89,7 +89,7 @@
                                                     <td><input type="time" name="timeEnd" id="timeEnd" value="<%= dt.timeEnd ? dt.timeEnd : '' %>" disabled></td>
                                                 <% } else { %>
                                                     <td><input type="time" name="timeStart" id="timeStart" value="<%= dt.timeStart %>" readonly></td>
-                                                    <td><input class="<%= (error && dt._id == timekeepingId) ? 'invalid' : '' %>" type="time" name="timeEnd" id="timeEnd" value="<%= dt.timeEnd ? dt.timeEnd : '' %>"></td>
+                                                    <td><input class="<%= (error && dt._id == timekeepingId) ? 'invalid' : '' %>" type="time" name="timeEnd" id="timeEnd" value="<%= dt.timeEnd ? dt.timeEnd : '' %>" step='1'></td>
                                                 <% } %>
                                                 <td><%= dt.timeEnd ? parseFloat(dt.workHours).toFixed(2) : 'chưa kết thúc' %></td>
                                                 <td><%= dt.leaveHours %></td>

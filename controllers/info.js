@@ -1,6 +1,6 @@
 const Info = require('../models/info');
 const Data = require('../models/data');
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator');
 const moment = require('moment');
 const fileHelper = require('../util/file');
 
