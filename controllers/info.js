@@ -81,8 +81,8 @@ exports.postAddStaff = (req, res) => {
     
     const newStaff = new Info({companyId, name, role, doB, salaryScale, startDate, department, annualLeave, imageUrl, status, userAdmin});
     const newData = new Data({companyId, name, salaryScale, annualLeave, timekeeping: [], bodyTemp: [], vaccine: {}, positive: [], leave: [], timekeepingPerDay: [], salary: [], confirmedStatus: true, userAdmin});
-    newStaff.save().catch(err => {console.log(err)});
-    newData.save().catch(err => {console.log(err)});
+    newStaff.save().catch((err) => {console.log(err)});
+    newData.save().then(() => {res.redirect('/')}).catch(err => {console.log(err)});
   };
 
 
