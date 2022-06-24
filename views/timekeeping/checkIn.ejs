@@ -78,7 +78,7 @@
                             %>
                                 <tr>
                                     <td><%= new Date(tp.date).toLocaleDateString('en-GB') %></td>
-                                    <td><%= tp.timeStart %></td>
+                                    <td><%= moment(tp.timeStart, "hh:mm:ss").add(7, 'hours').format("hh:mm:ss") %></td>
                                     <td><%= tp.workplace %></td>
                                 </tr>
                             <% }} %>
